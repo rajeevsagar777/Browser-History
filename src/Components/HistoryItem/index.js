@@ -1,38 +1,35 @@
 import './index.css'
 
-const HistoryItem = props => {
-  const {eachItem, deleteClickedItem} = props
-  const {id, timeAccessed, logoUrl, title, domainUrl} = eachItem
-  const onDeleteItem = () => {
-    deleteClickedItem(id)
-  }
+const BrowserItem = props => {
+  const {browserDetails, onClickDelete} = props
+  const {id, timeAccessed, logoUrl, title, domainUrl} = browserDetails
 
+  const onClickDeleteButton = () => {
+    onClickDelete(id)
+  }
   return (
-    <li className="list-item">
-      <div className="time-logo-container">
+    <li className="browser-item-cont">
+      <div className="browser-details">
         <p className="time">{timeAccessed}</p>
-        <div className="domain-container">
-          <div className="logo-container">
-            <img src={logoUrl} className="image" alt="domain logo" />
-          </div>
-          <p className="title"> {title}</p>
-          <p className="url">{domainUrl}</p>
-        </div>
+        <img src={logoUrl} alt="domain logo" className="logo" />
+        <p className="title">{title}</p>
+        <p className="domainUrl">{domainUrl}</p>
       </div>
-      <button
-        type="button"
-        className="delete-container"
-        testid="delete"
-        onClick={onDeleteItem}
-      >
-        <img
-          className="delete-icon"
-          src="https://assets.ccbp.in/frontend/react-js/delete-img.png"
-          alt="delete"
-        />
-      </button>
+      <div className="delete-btn">
+        <button
+          type="button"
+          testid="delete"
+          className="button"
+          onClick={onClickDeleteButton}
+        >
+          <img
+            src="https://assets.ccbp.in/frontend/react-js/delete-img.png"
+            alt="delete"
+            className="delete"
+          />
+        </button>
+      </div>
     </li>
   )
 }
-
-export default HistoryItem
+export default BrowserItem

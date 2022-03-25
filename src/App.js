@@ -3,7 +3,7 @@ import './App.css'
 // These are the list used in the application. You can move them to any component needed.
 import {Component} from 'react'
 
-import HistoryItem from './Components/HistoryItem'
+import BrowserItem from './Components/HistoryItem'
 
 const initialHistoryList = [
   {
@@ -81,95 +81,83 @@ const initialHistoryList = [
 ]
 
 class App extends Component {
-  state = {searchInput: '', newList: initialHistoryList}
-
-  searchResultValue = event => {
-    this.setState({searchInput: event.target.value})
+  state = {
+    searchInput: '',
+    searchResults: initialHistoryList,
   }
 
-  deleteClickedItem = id => {
-    const {newList} = this.state
-    const filteredList = newList.filter(eachItem => eachItem.id !== id)
-    this.setState({newList: filteredList})
+  onClickDelete = id => {
+    const {searchResults} = this.state
+    const updatedResults = searchResults.filter(eachItem => eachItem.id !== id)
+
+    this.setState({searchResults: updatedResults})
+  }
+
+  renderEmptyView = () => (
+    <div className="history-cont">
+      <p className="empty-cont">There is no history to show</p>
+    </div>
+  )
+
+  renderBrowserItem = () => {
+    const {searchInput, searchResults} = this.state
+    const newResults = searchResults.filter(eachResult =>
+      eachResult.title.toLowerCase().includes(searchInput.toLowerCase()),
+    )
+    if (newResults.length === 0) {
+      this.renderEmptyView()
+    }
+    return (
+      <ul className="history-cont">
+        {newResults.map(eachBrowser => (
+          <BrowserItem
+            key={eachBrowser.id}
+            browserDetails={eachBrowser}
+            onClickDelete={this.onClickDelete}
+          />
+        ))}
+      </ul>
+    )
+  }
+
+  onChangeSearchInput = event => {
+    this.setState({searchInput: event.target.value})
+    this.renderBrowserItem()
   }
 
   render() {
-    const {searchInput, newList} = this.state
-    const searchList = newList.filter(eachItem =>
-      eachItem.title.toLowerCase().includes(searchInput.toLowerCase()),
+    const {searchInput, searchResults} = this.state
+    const newResults = searchResults.filter(eachResult =>
+      eachResult.title.toLowerCase().includes(searchInput.toLowerCase()),
     )
-    console.log(searchList)
-    if (searchList.length === 0) {
-      return (
-        <div className="app-container">
-          <div className="header-container">
-            <img
-              src="https://assets.ccbp.in/frontend/react-js/history-website-logo-img.png"
-              alt="app logo"
-              className="logo-image"
-            />
-            <div className="search-container">
-              <div className="search-image">
-                <img
-                  src="https://assets.ccbp.in/frontend/react-js/search-img.png"
-                  className="search"
-                  alt="search"
-                />
-              </div>
-              <input
-                type="search"
-                className="search-input"
-                placeholder="Search history"
-                value={searchInput}
-                onChange={this.searchResultValue}
-              />
-            </div>
-          </div>
-          <div className="history-container-empty">
-            <p className="">There is no history to show</p>
-          </div>
-        </div>
-      )
-    }
 
     return (
-      <div className="app-container">
-        <div className="header-container">
+      <div className="browser-app">
+        <div className="browser-header">
           <img
             src="https://assets.ccbp.in/frontend/react-js/history-website-logo-img.png"
             alt="app logo"
-            className="logo-image"
+            className="history"
           />
-          <div className="search-container">
-            <div className="search-image">
+          <div className="search-cont">
+            <button className="search-btn" type="button" testid="search">
               <img
                 src="https://assets.ccbp.in/frontend/react-js/search-img.png"
-                className="search"
                 alt="search"
+                className="search"
               />
-            </div>
+            </button>
             <input
               type="search"
               className="search-input"
-              placeholder="Search history"
-              value={searchInput}
-              onChange={this.searchResultValue}
+              placeholder="Search History"
+              onChange={this.onChangeSearchInput}
             />
           </div>
         </div>
-        <div className="history-container">
-          <div className="history-card-container">
-            <ul className="list-container">
-              {searchList.map(eachItem => (
-                <HistoryItem
-                  eachItem={eachItem}
-                  key={eachItem.id}
-                  deleteClickedItem={this.deleteClickedItem}
-                />
-              ))}
-            </ul>
-          </div>
-        </div>
+        {newResults.length === 0
+          ? this.renderEmptyView()
+          : this.renderBrowserItem()}
       </div>
     )
   }
