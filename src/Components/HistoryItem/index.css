@@ -1,0 +1,74 @@
+.list-item {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 0px;
+  margin-left: 0px;
+}
+.time-logo-container {
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (min-width: 768px) {
+  .time-logo-container {
+    flex-direction: row;
+  }
+}
+.domain-container {
+  display: flex;
+}
+.image {
+  width: 30px;
+  height: 30px;
+}
+@media screen and (min-width: 768px) {
+  .image {
+    width: 35px;
+    height: 35px;
+    margin-left: 35px;
+  }
+}
+.time {
+  font-size: 14px;
+  font-family: 'Roboto';
+  font-weight: 500;
+  color: #475569;
+}
+@media screen and (min-width: 768px) {
+  .time {
+    font-size: 15px;
+  }
+}
+.title {
+  font-size: 15px;
+  font-family: 'Roboto';
+  font-weight: 600;
+  color: #475569;
+  margin-left: 15px;
+}
+@media screen and (min-width: 768px) {
+  .title {
+    font-size: 17px;
+  }
+}
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.url {
+  color: #64748b;
+  font-weight: 400;
+}
+.delete-container {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  border-width: 0px;
+  background-color: #ffffff;
+  cursor: pointer;
+}
